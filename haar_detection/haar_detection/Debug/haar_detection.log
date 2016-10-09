@@ -1,0 +1,10 @@
+﻿Build started 8/6/2016 10:36:20 AM.
+     1>Project "F:\Thesis\thesis_project\haar_detection\haar_detection\haar_detection.vcxproj" on node 2 (Build target(s)).
+     1>Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"F:\Thesis\thesis_project\haar_detection\Debug\haar_detection.exe" /INCREMENTAL /NOLOGO /LIBPATH:C:\opencv\build\\x64\vc12\lib opencv_world310d.lib opencv_world310.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"F:\Thesis\thesis_project\haar_detection\Debug\haar_detection.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"F:\Thesis\thesis_project\haar_detection\Debug\haar_detection.lib" /MACHINE:X86 Debug\main.obj
+     1>opencv_world310d.lib(opencv_world310d.dll) : fatal error LNK1112: module machine type 'x64' conflicts with target machine type 'X86'
+     1>Done Building Project "F:\Thesis\thesis_project\haar_detection\haar_detection\haar_detection.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.35
