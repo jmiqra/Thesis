@@ -36,71 +36,6 @@ String inttostr(int input)
 	return ss.str();
 }
 
-Mat thresh_callback(int, void*, Mat fra)
-{
-	Mat canny_output;
-	vector<vector<Point> > contours;
-	vector<Vec4i> hierarchy;
-	Point result = 0;
-	int largest = 0;
-	int largest_index = 0;
-	/// Detect edges using canny
-	Canny(fra, canny_output, thresh, thresh * 2, 3);
-	/// Find contours
-	findContours(canny_output, contours, hierarchy, CV_RETR_TREE, CV_CHAIN_APPROX_SIMPLE, Point(0, 0));
-
-	vector<Moments> mu(contours.size());
-	Moments mm;
-	
-	for (size_t i = 0; i < contours.size(); i++)
-	{
-		double a = contourArea(contours[i], false);  //  Find the area of contour
-		if (a > largest){
-			largest = a;
-			mm = moments(contours[i], false);
-			largest_index = i;                //Store the index of largest contour
-			//bounding_rect = boundingRect(contours[i]);
-		}
-	}
-	vector<Point2f> mc(contours.size());
-	for (size_t i = 0; i < contours.size(); i++)
-	{
-		mc[i] = Point2f(mm.m10 / mm.m00, mm.m01 / mm.m00);
-	}
-	Mat drawing = Mat::zeros(canny_output.size(), CV_8UC3);
-	for (size_t i = 0; i< contours.size(); i++)
-	{
-		//Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-		drawContours(drawing, contours, (int)i, Scalar(255,0,0), 2, 8, hierarchy, 0, Point());
-		circle(drawing, mc[i] , 4, Scalar(0, 255, 255) , -1, 8, 0);
-	}
-
-	//convex hull
-
-	/*vector<vector<Point> >hull(contours.size());
-	for (size_t i = 0; i < contours.size(); i++)
-	{
-		convexHull(Mat(contours[i]), hull[i], false);
-	}
-	/// Draw contours
-	Mat drawing = Mat::zeros(canny_output.size(), CV_8UC3);
-	for (int i = 0; i< contours.size(); i++)
-	{
-		Scalar color = Scalar(rng.uniform(0, 255), rng.uniform(0, 255), rng.uniform(0, 255));
-		drawContours(drawing, contours, i, color, 2, 8, hierarchy, 0, Point());
-		drawContours(drawing, hull, i, color, 1, 8, hierarchy, 0, Point());
-
-	}*/
-
-	/*Moments mo = moments(drawing);
-	result = Point(mo.m10 / mo.m00, mo.m01 / mo.m00);*/
-
-	/// Show in a window
-	//namedWindow("Contours", CV_WINDOW_AUTOSIZE);
-	//imshow("Contours", drawing);
-	return drawing;
-}
-
 void detectAndDisplay(Mat frame)
 {
 	vector<int> compression_params;
@@ -165,17 +100,52 @@ void detectAndDisplay(Mat frame)
 	//frame_gray(myroi).copyTo(img);
 	//img = frame_gray(myroi);
 	Mat crop = frame_gray(myroi);
-	Mat fra, fra1;
-	threshold(frame_gray, fra, 127, 255, THRESH_BINARY);
+	Mat fra, fra2;
+	//threshold(crop, fra, 127, 255, THRESH_BINARY); // somthing not right iqr
 	//threshold(frame_gray, fra1, 127, 255, THRESH_BINARY_INV);
 	//if ((fc % 5) == 0)
 	//{
-	fra1=thresh_callback(0, 0 , fra);
-	photocount++;
+	//fra1=thresh_callback(0, 0 , fra2); //chng iqr fra1 er kaj baki ase cog contour
+	Point ptc; // cog
+	ptc.x = (close.x + close1.x) / 2 ;
+	ptc.y = (close.y + close1.y) / 2;
+	circle(frame, ptc , 4, Scalar(0, 255, 255), -1, 8, 0);
+	//contour iqr new
+
+	int largest_area = 0;
+	int largest_contour_index = 0;
+	Rect bounding_rect;
+
+	Mat dst(frame.rows, frame.cols, CV_8UC1, Scalar::all(0));
+	threshold(frame_gray, fra2, 25, 255, THRESH_BINARY); //Threshold the gray
+	//threshold(crop, fra2, 25, 255, THRESH_BINARY);
+
+	vector<vector<Point>> contours; // Vector for storing contour
+	vector<Vec4i> hierarchy;
+
+	findContours(fra2, contours, hierarchy, CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE); // Find the contours in the image
+
+	for (int i = 0; i< contours.size(); i++) // iterate through each contour. 
+	{
+		double a = contourArea(contours[i], false);  //  Find the area of contour
+		if (a>largest_area){
+			largest_area = a;
+			largest_contour_index = i;                //Store the index of largest contour
+			bounding_rect = boundingRect(contours[i]); // Find the bounding rectangle for biggest contour
+		}
+	}
+	Scalar color(255, 255, 255);
+	drawContours(dst, contours, largest_contour_index, color, CV_FILLED, 8, hierarchy); // Draw the largest contour using previously stored index.
+	rectangle(frame, bounding_rect, Scalar(0, 255, 0), 1, 8, 0);
+	imshow("src", frame);
+	imshow("largest Contour", dst);
+
+
+
+	//photocount++;
 	//imagename = "F:/Thesis/thesis_project/haar_detection/haar_detection/pic" + inttostr(photocount) + ".jpg";
 	//imwrite(imagename, frame, compression_params);
 	//}
-	imshow(window_name, frame);
 }
 
 int main(void)
