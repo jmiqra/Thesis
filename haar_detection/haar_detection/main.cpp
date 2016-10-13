@@ -119,7 +119,7 @@ void detectAndDisplay(Mat frame)
 	IplImage* frame2 = cvCloneImage(&(IplImage)frame);
 	Mat img;
 
-	hand_cascade.detectMultiScale(frame_gray, hand, 1.1, 2, 0 | CASCADE_SCALE_IMAGE, Size(30, 30));
+	hand_cascade.detectMultiScale(frame_gray, hand, 1.3, 2, 0 | CASCADE_SCALE_IMAGE, Size(64, 64)); //sir_chng
 	Point close, close1;
 	close.x = 0;
 	close.y = 0;
