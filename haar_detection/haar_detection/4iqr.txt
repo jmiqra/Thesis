@@ -1,0 +1,41 @@
+
+second1true true true true close Four-------------------------------------  4
+
+second0
+second0true true true true close Four-------------------------------------  4
+
+second0true true true true close Four-------------------------------------  4
+
+second1
+second0true true true true close Four-------------------------------------  4
+
+second0
+second1true true true true close Four-------------------------------------  4
+
+second0true true true true down Nine-------------------------------------  9
+
+second0true true true true close Zero-------------------------------------  0
+
+second1
+second0
+second0
+second0true true true true close Zero-------------------------------------  0
+
+second1
+second0
+second0
+second1
+second0
+second0
+second0
+second1
+second0
+second0
+second1
+second0
+second0
+second1
+second0
+second0
+second0
+second1

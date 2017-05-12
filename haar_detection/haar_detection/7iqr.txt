@@ -1,0 +1,29 @@
+
+second1
+second0
+second0false false true true normal Eight-------------------------------------  8
+
+second1false false true true normal Eight-------------------------------------  8
+
+second0false false false false normal Five-------------------------------------  5
+
+second0false false true true normal Eight-------------------------------------  8
+
+second1
+second0false true true true normal Seven-------------------------------------  7
+second1
+second0false true true true normal Seven-------------------------------------  7
+second1
+second0false true true true normal Seven-------------------------------------  7
+second1
+second0false true true true normal Seven-------------------------------------  7
+second1
+second0false true true true normal Seven-------------------------------------  7
+
+second0false false true true normal Eight-------------------------------------  8
+
+second0
+second1
+second0
+second0
+second0

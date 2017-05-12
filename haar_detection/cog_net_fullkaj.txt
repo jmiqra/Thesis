@@ -1,0 +1,67 @@
+#include <iostream>
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/imgproc/imgproc.hpp>
+
+#define I_CIRCLE_RADIUS 100
+#define CANNY_THRESHOLD 70
+
+using namespace std;
+using namespace cv;
+
+int main()
+{
+    namedWindow( "Original", CV_WINDOW_AUTOSIZE );
+    namedWindow( "Binary", CV_WINDOW_AUTOSIZE );
+    moveWindow( "Binary", 570, 100 );
+    moveWindow( "Original", 0, 100 );
+
+    // Read image
+    Mat original = imread( "c:/data/test.png" );
+
+    // Define circle center
+    // put the circle center at the center of image for test purposes
+    // Scalar is the way to go CV_RGB is old format, openCV uses Scalar on BGR now
+    Point circle_center( original.cols/2, original.rows/2 ); 
+
+    // Calculate all points on that circle
+    // Axes are half of the ellipse axes, a circle is a perfect ellipse, with radius = 2x half of the axes :)
+    Size axes( I_CIRCLE_RADIUS, I_CIRCLE_RADIUS );
+    vector<Point> circle_points;
+    ellipse2Poly( circle_center, axes, 0, 0, 360, 1, circle_points );
+
+    //Make a grayscale copy
+    Mat gray( original.size(), CV_8UC1 );
+    cvtColor( original, gray, CV_BGR2GRAY );
+
+    //Find edges in grayscale image
+    Mat edges( original.size(), CV_8UC1 );
+    Canny( gray, edges, CANNY_THRESHOLD, CANNY_THRESHOLD * 3, 3 );
+
+    // Only draw extra info right before visualisation
+    circle( original, circle_center, I_CIRCLE_RADIUS, Scalar( 255, 0, 0 ), 2);
+
+    // Lets make a edge map on a 3 channel color image for output purposes
+    Mat edges_color(edges.rows, edges.cols, CV_8UC3);
+    Mat in[] = { edges, edges, edges };
+    int from_to[] = { 0,0, 1,1, 2,2 };
+    mixChannels( in, 3, &edges_color, 1, from_to, 3 );
+
+    //Iterate pixels in circle
+    for(int i = 0; i < circle_points.size(); i++){
+        Point current_point = circle_points[i];
+        int value_at_that_location_in_edge_map = edges.at<uchar>(circle_points[i].y, circle_points[i].x);
+        cout << value_at_that_location_in_edge_map << " ";
+        if ( value_at_that_location_in_edge_map == 255 ){
+                circle( edges_color, circle_points[i], 2, Scalar( 0, 0, 255 ), -1); // filled circle at the position
+        }
+    }
+
+    // Always add a waitKey(5) after an imshow so that the onpaint inner method can get executed without problems
+    imshow( "Binary", edges_color ); waitKey(5);
+    imshow( "Original", original ); waitKey(5);
+
+    // Wait forever on a hit to close application
+    waitKey(0);
+
+    return 0;
+}

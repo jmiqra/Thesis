@@ -1,0 +1,42 @@
+true false true true up Six-------------------------------------  6
+
+second1true false true true up Six-------------------------------------  6
+
+second0
+second0true false true true up Six-------------------------------------  6
+
+second0true false true true up Six-------------------------------------  6
+
+second1
+second0true false true true up Six-------------------------------------  6
+
+second0
+second0
+second1false true true true close One-------------------------------------  1
+
+second0false true true true close One-------------------------------------  1
+
+second0false true true true close One-------------------------------------  1
+
+second0false true true true close One-------------------------------------  1
+
+second0false true true true close One-------------------------------------  1
+
+second0false true true true close One-------------------------------------  1
+
+second0false true true true close One-------------------------------------  1
+
+second0false true true true close One-------------------------------------  1
+
+second0false true true true close One-------------------------------------  1
+
+second0false true true true close One-------------------------------------  1
+
+second0false true true true close One-------------------------------------  1
+
+second0false true true true close One-------------------------------------  1
+second0false true true true close One-------------------------------------  1
+second0false true true true close One-------------------------------------  1
+second0false true true true close One-------------------------------------  1
+second0false true true true close One-------------------------------------  1
+second0false true true true close One-------------------------------------  1
